@@ -1,2 +1,2 @@
 console.log('test hook!!!!')
-console.log('test protected branch')
+console.log('test protected branch 2')
