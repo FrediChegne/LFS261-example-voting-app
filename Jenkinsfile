@@ -23,7 +23,6 @@ pipeline {
                         echo 'step 3'
                         sleep 5
                     }
-          }
         }
     } 
 
