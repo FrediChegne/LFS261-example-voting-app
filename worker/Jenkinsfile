@@ -19,10 +19,10 @@ pipeline {
             }
         }
         stage("test"){
-            steps{
-                when{
+            when{
                     changeset "**/worker/**"
-                }
+            }
+            steps{
                 echo 'Running Unit Tests on worker app'
                 dir('worker'){
                     sh 'mvn clean test'
