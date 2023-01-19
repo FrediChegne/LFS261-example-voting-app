@@ -10,7 +10,7 @@ pipeline {
     stages{
         stage("build"){
             steps{
-                echo 'Compiling worker app'
+                echo 'building worker app'
                 dir('worker'){
                     sh 'mvn compile'
                 }
@@ -31,8 +31,21 @@ pipeline {
                     sh 'mvn package -DskipTests'
                     archiveArtifacts artifacts: '**/target/*.jar', fingerprint: true
                 }    
+            } 
+        }
+        stage('docker-package'){
+            agent any
+            steps{
+                echo 'Packaging worker app with docker'
+                script{
+                    docker.withRegistry('https://index.docker.io/v1/',
+                    'dockerlogin') {  def workerImage =
+                    docker.build("fredichegne/worker:v${env.BUILD_ID}", "./ worker")
+                    workerImage.push()
+                    workerImage.push("latest")
+                    }
+                }
             }
-            
         }
     }
     post{
